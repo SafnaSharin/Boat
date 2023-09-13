@@ -156,8 +156,8 @@ exports.updateproduct = asyncHandler(async (req, res) => {
     details.price = price;
     details.offerprice= offerprice
     details.description = description;
-    if (req.files) {
-      details.image =image;
+    if (files && files.length >0) {
+      details.image = [...details.image, ...image];
       console.log(image)
     }
 
@@ -179,6 +179,33 @@ exports.deleteproduct = asyncHandler(async (req, res) => {
       return res.status(404).json({ error: "Category not found" });
     }
     res.json({ message: "Category deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+});
+
+exports.deleteimage = asyncHandler(async (req, res) => {
+  const { id, index } = req.params;
+  console.log("Product ID:", id);
+  console.log("Image Index:", index);
+
+  try {
+    const product = await productModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    if (index < 0 || index >= product.image.length) {
+      return res.status(400).json({ error: "Invalid image index" });
+    }
+
+    product.image.splice(index, 1);
+
+    await product.save();
+
+    res.json({ message: "Image deleted successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "An error occurred" });

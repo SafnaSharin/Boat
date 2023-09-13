@@ -54,6 +54,9 @@ import Product from "layouts/product-management/productList"
 //import ProductList from "layouts/product-management/productList"
 import AddProduct from "layouts/product-management/add-product"
 import Editproduct from "layouts/product-management/edit-product"
+import Banner from "layouts/banner-management/banner" 
+import BannerAdd from "layouts/banner-management/add-banner"
+import Editbanner from "layouts/banner-management/edit-banner"
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -170,6 +173,33 @@ const routes = [
   },
 
   {
+    type: "collapse",
+    name: "banner-Management",
+    key: "banner",
+    route: "/banner-management",
+    icon: <Shop size="12px" />,
+    component: <Banner/>,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    // name: "Add-banner",
+    key: "banneryAdd",
+    route: "/add-banner",
+    icon: <Office size="12px" />,
+    component: <BannerAdd />,
+    noCollapse: true,
+  },
+  {
+    // type: "collapse",
+    // name: "EditUsers",
+    key: "Editbanner",
+    route: "/edit-banner/:id",
+    // icon: <Office size="12px" />,
+    component: <Editbanner />,
+    noCollapse: true,
+  },
+  {
     // type: "collapse",
     name: "Tables",
     key: "tables",
@@ -217,7 +247,7 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "collapse",
+    // type: "collapse",
     name: "Sign In",
     key: "sign-in",
     route: "/authentication/sign-in",
@@ -226,7 +256,7 @@ const routes = [
     noCollapse: true,
   },
   {
-    type: "collapse",
+    // type: "collapse",
     name: "Sign Up",
     key: "sign-up",
     route: "/authentication/sign-up",

@@ -21,6 +21,7 @@ function SignUp() {
   const [role, setRole] = useState("");
   const [location, setLocation] = useState("");
   const [image, setImage] = useState(null);
+  const [formErrors, setFormErrors] = useState({}); 
   const navigate = useNavigate("");
   const handleSetAgreement = () => setAgreement(!agreement);
 
@@ -31,6 +32,41 @@ function SignUp() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    setFormErrors({});
+
+    // Validate required fields
+    if (!username) {
+      setFormErrors({ username: "Username is required" });
+      return;
+    }
+
+    if (!email) {
+      setFormErrors({ email: "Email is required" });
+      return;
+    }
+
+    if (!password) {
+      setFormErrors({ password: "Password is required" });
+      return;
+    }
+
+    if (!location) {
+      setFormErrors({ location: "location is required" });
+      return;
+    }
+
+    if (!role) {
+      setFormErrors({ role: "role is required" });
+      return;
+    }
+
+    if (!contact) {
+      setFormErrors({ contact: "contact is required" });
+      return;
+    }
+
+
 
     const formData = new FormData();
     formData.append("username", username);
@@ -83,6 +119,11 @@ function SignUp() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
+               {formErrors.username && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.username}
+                </SoftTypography>
+              )}
             </SoftBox>
             <SoftBox mb={2}>
               <SoftInput
@@ -91,6 +132,11 @@ function SignUp() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+               {formErrors.password && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.password}
+                </SoftTypography>
+              )}
             </SoftBox>
             <SoftBox mb={2}>
               <SoftInput
@@ -99,6 +145,11 @@ function SignUp() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+               {formErrors.email && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.email}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>
@@ -108,6 +159,11 @@ function SignUp() {
                 value={contact}
                 onChange={(e) => setContact(e.target.value)}
               />
+               {formErrors.contact && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.contact}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>
@@ -117,6 +173,11 @@ function SignUp() {
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
               />
+               {formErrors.role && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.role}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>
@@ -126,6 +187,11 @@ function SignUp() {
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
               />
+               {formErrors.location && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.location}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>

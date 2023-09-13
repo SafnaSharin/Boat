@@ -13,8 +13,11 @@ import curved6 from "assets/images/curved-images/curved14.jpg";
 import axios from "axios";
 function SignUp() {
 //   const [agreement, setAgreement] = useState(true);
-  const [catogery, setcatogery] = useState("");
-  const [image, setImage] = useState(null);
+const [name, setname] = useState("");
+const [title, settitle] = useState("");
+const [subtitle, setsubtitle] = useState("");
+const [url, seturl] = useState("");
+const [image, setImage] = useState(null);
   const {id} =useParams()
   const navigate = useNavigate("");
 //   const handleSetAgreement = () => seatAgreement(!agreement);
@@ -23,11 +26,14 @@ useEffect(()=>{
   const fetchdetails = async() =>{
       console.log(id);
       try{
-          const response = await axios.get(`http://localhost:4000/productRouter/editcatogery/${id}`);
+          const response = await axios.get(`http://localhost:4000/bannerRouter/editbanner/${id}`);
           console.log('hetefffffffffffffffffffff')
           const details =response.data;
           console.log("hello", response.data);
-          setcatogery(details.catogery);
+          setname(details.name);
+          settitle(details.title);
+          setsubtitle(details.subtitle);
+          seturl(details.url);
           setImage(details.image);
 
   }
@@ -49,11 +55,14 @@ fetchdetails();
   const handleupdate = async (e) => {
     e.preventDefault();
   
-    const url = `http://localhost:4000/productRouter/updating/${id}`; // Replace with your API endpoint
+    const url = `http://localhost:4000/bannerRouter/update/${id}`; // Replace with your API endpoint
     
 
     const formData = new FormData(); 
-    formData.append("catogery",catogery)
+    formData.append("name", name);
+    formData.append("title", title);
+    formData.append("subtitle", subtitle);
+    formData.append("url", url);
     formData.append('image', image);
     axios
       .put(url, formData, {
@@ -63,7 +72,7 @@ fetchdetails();
       })
       .then((response) => {
         console.log(response);
-        window.location.href = "/categary-management";
+        window.location.href = "/banner-management";
       })
 
       .catch((err) => {
@@ -84,7 +93,7 @@ fetchdetails();
       <Card>
         <SoftBox p={3} mb={1} textAlign="center">
           <SoftTypography variant="h5" fontWeight="medium">
-            Edit Catogery
+            Edit Banner
           </SoftTypography>
         </SoftBox>
         {/* <SoftBox mb={2}>
@@ -98,12 +107,40 @@ fetchdetails();
 
             <SoftBox mb={2}>
               <SoftInput
-                type="catogery"
-                placeholder="catogery"
-                value={catogery}
-                onChange={(e) => setcatogery(e.target.value)}
+                type="name"
+                placeholder="name"
+                value={name}
+                onChange={(e) => setname(e.target.value)}
               />
             </SoftBox>
+
+            <SoftBox mb={2}>
+              <SoftInput
+                type="text"
+                placeholder="title"
+                value={title}
+                onChange={(e) => settitle(e.target.value)}
+              />
+            </SoftBox>
+
+            <SoftBox mb={2}>
+              <SoftInput
+                type="subtitle"
+                placeholder="subtitle"
+                value={subtitle}
+                onChange={(e) => setsubtitle(e.target.value)}
+              />
+            </SoftBox>
+
+            <SoftBox mb={2}>
+              <SoftInput
+                type="url"
+                placeholder="url"
+                value={url}
+                onChange={(e) => seturl(e.target.value)}
+              />
+            </SoftBox>
+
 
             <SoftBox mb={2}>
               <SoftInput type="file" accept="image/*" onChange={handleImageChange} />

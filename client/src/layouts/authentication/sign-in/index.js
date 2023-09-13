@@ -28,9 +28,27 @@ function SignIn() {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(""); // New state for email validation error
+  const [passwordError, setPasswordError] = useState("");
 
+  
   const handleSignIn = (e) => {
     e.preventDefault();
+
+    setEmailError("");
+    setPasswordError("");
+
+     if (!email) {
+      setEmailError("Email is required"); // Set email validation error
+      return;
+    }
+
+    if (!password) {
+      setPasswordError("Password is required"); // Set password validation error
+      return;
+    }
+
+
     const data = {
       email: email,
       password: password,
@@ -74,6 +92,12 @@ function SignIn() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
+           {emailError && (
+            <SoftTypography variant="caption" color="error">
+              {emailError}
+            </SoftTypography>
+          )}
         </SoftBox>
 
         <SoftBox mb={2}>
@@ -81,6 +105,12 @@ function SignIn() {
             <SoftTypography component="label" variant="caption" fontWeight="bold">
               Password
             </SoftTypography>
+
+            {passwordError && (
+            <SoftTypography variant="caption" color="error">
+              {passwordError}
+            </SoftTypography>
+          )}
           </SoftBox>
           <SoftInput
             type="password"

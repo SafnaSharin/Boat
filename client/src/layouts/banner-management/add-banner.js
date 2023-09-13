@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import SoftBox from "components/SoftBox";
@@ -11,69 +11,49 @@ import Socials from "layouts/authentication/components/Socials";
 import Separator from "layouts/authentication/components/Separator";
 import curved6 from "assets/images/curved-images/curved14.jpg";
 import axios from "axios";
-function SignUp() {
+
+function AddBanner() {
 //   const [agreement, setAgreement] = useState(true);
-  const [catogery, setcatogery] = useState("");
+  const [name, setname] = useState("");
+  const [title, settitle] = useState("");
+  const [subtitle, setsubtitle] = useState("");
+  const [url, seturl] = useState("");
   const [image, setImage] = useState(null);
-  const {id} =useParams()
-  const navigate = useNavigate("");
-//   const handleSetAgreement = () => seatAgreement(!agreement);
-
-useEffect(()=>{
-  const fetchdetails = async() =>{
-      console.log(id);
-      try{
-          const response = await axios.get(`http://localhost:4000/productRouter/editcatogery/${id}`);
-          console.log('hetefffffffffffffffffffff')
-          const details =response.data;
-          console.log("hello", response.data);
-          setcatogery(details.catogery);
-          setImage(details.image);
-
-  }
-  catch(error) {
-      console.log(error);
-  }
-};
-fetchdetails();
-},[id]);
+//   const navigate = useNavigate("");
+//   const handleSetAgreement = () => setAgreement(!agreement);
 
   const handleImageChange = (e) => {
     const selectedImages = e.target.files[0];
-    console.log("huiiiiiiiiiiiiiiiiiiii", selectedImages)
     setImage(selectedImages);
-    
   };
 
-
-  const handleupdate = async (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
-  
-    const url = `http://localhost:4000/productRouter/updating/${id}`; // Replace with your API endpoint
-    
 
-    const formData = new FormData(); 
-    formData.append("catogery",catogery)
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("title", title);
+    formData.append("subtitle", subtitle);
+    formData.append("url", url);
     formData.append('image', image);
+
+    console.log(formData.image);
+    console.log(formData);
     axios
-      .put(url, formData, {
+      .post("http://localhost:4000/bannerRouter/addbanner", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         console.log(response);
-        window.location.href = "/categary-management";
+        window.location.href = "/banner-management";
       })
 
       .catch((err) => {
         console.log(err);
-      }); 
-  
+      });
   };
-
-
-
 
   return (
     <BasicLayout
@@ -84,7 +64,7 @@ fetchdetails();
       <Card>
         <SoftBox p={3} mb={1} textAlign="center">
           <SoftTypography variant="h5" fontWeight="medium">
-            Edit Catogery
+            Add Catogery
           </SoftTypography>
         </SoftBox>
         {/* <SoftBox mb={2}>
@@ -98,20 +78,46 @@ fetchdetails();
 
             <SoftBox mb={2}>
               <SoftInput
-                type="catogery"
-                placeholder="catogery"
-                value={catogery}
-                onChange={(e) => setcatogery(e.target.value)}
+                type="text"
+                placeholder="name"
+                value={name}
+                onChange={(e) => setname(e.target.value)}
               />
             </SoftBox>
 
             <SoftBox mb={2}>
-              <SoftInput type="file" accept="image/*" onChange={handleImageChange} />
+              <SoftInput
+                type="text"
+                placeholder="title"
+                value={title}
+                onChange={(e) => settitle(e.target.value)}
+              />
+            </SoftBox>
+
+            <SoftBox mb={2}>
+              <SoftInput
+                type="subtitle"
+                placeholder="subtitle"
+                value={subtitle}
+                onChange={(e) => setsubtitle(e.target.value)}
+              />
+            </SoftBox>
+
+            <SoftBox mb={2}>
+              <SoftInput
+                type="url"
+                placeholder="url"
+                value={url}
+                onChange={(e) => seturl(e.target.value)}
+              />
+            </SoftBox>
+            <SoftBox mb={2}>
+              <SoftInput type="file" name="image" accept="image/*" onChange={handleImageChange} />
             </SoftBox>
 
             <SoftBox mt={4} mb={1}>
-              <SoftButton  variant="gradient" color="dark" fullWidth onClick={handleupdate}>
-                Update
+              <SoftButton  variant="gradient" color="dark" fullWidth onClick={handleAdd}>
+                Add
               </SoftButton>
             </SoftBox>
            
@@ -125,4 +131,4 @@ fetchdetails();
   );
 }
 
-export default SignUp;
+export default AddBanner;

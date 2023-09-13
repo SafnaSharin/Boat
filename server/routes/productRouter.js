@@ -28,4 +28,5 @@ router.get('/productlist',controller.productlist)
 router.get('/editproduct/:id',controller.editproduct)
 router.put('/update/:id', upload.array('image'),controller.updateproduct)
 router.delete('/deleteproduct/:id',controller.deleteproduct)
+router.delete('/deleteimage/:id/:index',controller.deleteimage)
 module.exports = router;

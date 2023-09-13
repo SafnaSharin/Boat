@@ -13,6 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var projectRouter =require('./routes/projectRouter')
 var productRouter =require('./routes/productRouter')
+var bannerRouter =require('./routes/bannerRouter')
 var authMiddleware = require('./middleware/authmiddleware');
 const bodyParser = require('body-parser');
 const { truncate } = require('fs/promises');
@@ -36,6 +37,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use ('/projectRouter', projectRouter);
 app.use('/productRouter', productRouter)
+app.use('/bannerRouter', bannerRouter)
+
 // app.use((err, req, res, next) => {
 //   if (err instanceof SyntaxError) {
 //     return res.status(400).json({ message: 'Invalid JSON' });

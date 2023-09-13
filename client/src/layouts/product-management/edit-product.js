@@ -13,14 +13,14 @@ import curved6 from "assets/images/curved-images/curved14.jpg";
 import axios from "axios";
 import { InputLabel, MenuItem, Select } from "@mui/material";
 
-function AddProduct() {
+function Editproduct() {
 //   const [agreement, setAgreement] = useState(true);
   const [productname, setproductname] = useState("");
   const [description, setdescription] = useState("");
   const [price, setprice] = useState("");
   const [offerprice, setofferprice] = useState("");
-  const[category ,setcategory]= useState("")
-  const[categoryList ,setcategoryList]= useState("")
+  const [category ,setcategory]= useState("")
+  const [categoryList ,setcategoryList]= useState("")
   const [image, setImage] = useState([]);
   const [imagePreviews1,  setImagePreviews1] = useState([]);
   const [imagePreviews,  setImagePreviews] = useState([]);
@@ -47,52 +47,64 @@ useEffect(()=>{
   },[]);
 
   useEffect(()=>{
-    const fetchdetails = async() =>{
-        console.log(id);
-        try{
-            const response = await axios.get(`http://localhost:4000/productRouter/editproduct/${id}`);
-            console.log('hetefffffffffffffffffffff')
-            const details =response.data;
-            console.log("hello", response.data);
-            setproductname(details.productname);
-            setdescription(details.description);
-            setcategory(details.catogery)
-            setprice(details.price);
-            setofferprice(details.offerprice)
-            const image= details.image;
-                if (image) {
-                  setImage([image]);
-          
-                  const previewImages = [];
-                  for (let i = 0; i < image.length; i++) {
-                    const imageURL = `http://localhost:4000/uploads/${image[i]}`;
-                    previewImages.push(imageURL);
-                  }
-                  setImagePreviews(previewImages);
-                } else {
-                  setImage([]);
-                  setImagePreviews([]);
-           }
-  
-    }
-    catch(error) {
-        console.log(error);
-    }
-  };
+    
   fetchdetails();
   },[id]);
+  const fetchdetails = async() =>{
+    console.log(id);
+    try{
+        const response = await axios.get(`http://localhost:4000/productRouter/editproduct/${id}`);
+        console.log('hetefffffffffffffffffffff')
+       
+        const details =response.data;
+        console.log("hello", response.data);
+        setproductname(details.productname);
+        setdescription(details.description);
+        setcategory(details.catogery)
+        setprice(details.price);
+        setofferprice(details.offerprice)
+        const image= details.image;
+            if (image) {
+              setImage([image]);
+      
+              const previewImages = [];
+              for (let i = 0; i < image.length; i++) {
+                const imageURL = `http://localhost:4000/uploads/${image[i]}`;
+                previewImages.push(imageURL);
+              }
+              setImagePreviews(previewImages);
+            } else {
+              setImage([]);
+              setImagePreviews([]);
+       }
 
-  const handleImageDelete = (index, e) => {
-    e.preventDefault(); 
+}
+catch(error) {
+    console.log(error);
+}
+};
+  const handleImageDelete = async (index) => {
+  console.log(index);
+  try {
+    // Send the image index to the server for deletion
+    await axios.delete(`http://localhost:4000/productRouter/deleteimage/${id}/${index}`);
+    
+    // Optionally, you can update your component state or refetch the product data here
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    const updatedImages = [...image];
-    updatedImages.splice(index, 1); // Remove the image at the specified index
-    setImage(updatedImages);
+    // e.preventDefault(); 
 
-    const updatedPreviewImages = [...imagePreviews];
-    updatedPreviewImages.splice(index, 1); // Remove the preview image at the specified index
-    setImagePreviews(updatedPreviewImages);
-  };
+    // const updatedImages = [...image];
+    // updatedImages.splice(index, 1); // Remove the image at the specified index
+    // setImage(updatedImages);
+
+    // const updatedPreviewImages = [...imagePreviews];
+    // updatedPreviewImages.splice(index, 1); // Remove the preview image at the specified index
+    // setImagePreviews(updatedPreviewImages);
+ 
 
 
 const handleImage = (e) => {
@@ -143,11 +155,7 @@ const handleImage = (e) => {
       .catch((err) => {
         console.log(err);
       }); 
-  
-  };
-  
-  
-
+  }
   return (
     <BasicLayout
       
@@ -245,7 +253,7 @@ const handleImage = (e) => {
                     alt={`Image Preview ${index + 1}`}
                     style={{ width: '100px', height: '100px', objectFit: 'cover', marginRight: '10px' }}
                   />
-                   <button onClick={(e) => handleImageDelete(index, e)}>Delete</button>
+                   <button onClick={() => handleImageDelete(index)}>Delete</button>
                 </div>
               ))}
               {imagePreviews1.map((previewUrl, index) => (
@@ -276,4 +284,4 @@ const handleImage = (e) => {
   );
 }
 
-export default AddProduct;
+export default Editproduct;
