@@ -19,6 +19,7 @@ function AddBanner() {
   const [subtitle, setsubtitle] = useState("");
   const [url, seturl] = useState("");
   const [image, setImage] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
 //   const navigate = useNavigate("");
 //   const handleSetAgreement = () => setAgreement(!agreement);
 
@@ -29,6 +30,23 @@ function AddBanner() {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
+    setFormErrors({});
+
+    if (!name) {
+      setFormErrors({ name: "Name is required" });
+      return;
+    }
+
+    if (!title) {
+      setFormErrors({ title: "Title is required" });
+      return;
+    }
+
+    if (!subtitle) {
+      setFormErrors({ subtitle: "Subtitle is required" });
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", name);
@@ -83,6 +101,11 @@ function AddBanner() {
                 value={name}
                 onChange={(e) => setname(e.target.value)}
               />
+                {formErrors.name && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.name}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>
@@ -92,6 +115,11 @@ function AddBanner() {
                 value={title}
                 onChange={(e) => settitle(e.target.value)}
               />
+                 {formErrors.title && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.title}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>
@@ -101,6 +129,11 @@ function AddBanner() {
                 value={subtitle}
                 onChange={(e) => setsubtitle(e.target.value)}
               />
+                {formErrors.subtitle && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.subtitle}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>

@@ -57,6 +57,7 @@ import Editproduct from "layouts/product-management/edit-product"
 import Banner from "layouts/banner-management/banner" 
 import BannerAdd from "layouts/banner-management/add-banner"
 import Editbanner from "layouts/banner-management/edit-banner"
+import Home from "UserFrontEnd/home"
 
 // Soft UI Dashboard React icons
 import Shop from "examples/Icons/Shop";
@@ -88,7 +89,15 @@ const routes = [
     component: <AdminUsers />,
     noCollapse: true,
   },
-
+  {
+    type: "collapse",
+    name: "home",
+    key: "home",
+    route: "/home",
+    icon: <Shop size="12px" />,
+    component: <Home/>,
+    noCollapse: true,
+  },
   {
     // type: "collapse",
     // name: "EditUsers",

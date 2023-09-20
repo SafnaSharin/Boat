@@ -15,7 +15,7 @@ import axios from "axios";
 function SignUp() {
 //   const [agreement, setAgreement] = useState(true);
   const [catogery, setcatogery] = useState("");
-
+  const [formErrors, setFormErrors] = useState({});
   const [image, setImage] = useState(null);
 //   const navigate = useNavigate("");
 //   const handleSetAgreement = () => setAgreement(!agreement);
@@ -27,6 +27,14 @@ function SignUp() {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
+    setFormErrors({});
+
+    if (!catogery) {
+      setFormErrors({ catogery: "Category is required" });
+      return;
+    }
+
 
     const formData = new FormData();
     formData.append("catogery", catogery);
@@ -77,6 +85,11 @@ function SignUp() {
                 value={catogery}
                 onChange={(e) => setcatogery(e.target.value)}
               />
+              {formErrors.catogery && (
+                <SoftTypography variant="caption" color="error">
+                  {formErrors.catogery}
+                </SoftTypography>
+              )}
             </SoftBox>
 
             <SoftBox mb={2}>

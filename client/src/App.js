@@ -53,7 +53,27 @@ export default function App() {
   const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
-  const { pathname } = useLocation();
+  const { pathname } = useLocation(); 
+  var template = "Front";
+  console.log(     pathname.search("productDetails")
+  )
+  if (
+    pathname == "/home" ||
+    pathname == "/product" ||
+    pathname == "/about" ||
+    pathname == "/contact" ||
+    pathname == "/cart" ||
+    pathname == "/wishlist" ||
+    pathname == "/checkout" ||
+    pathname == "/UserSignUp" ||
+    pathname == "/UserLogin" ||
+    pathname == "/user/registration" ||
+    (pathname.search("productDetails")>-1)
+  ) {
+    template = "Front";
+  } else {
+    template = layout;
+ }
 
   // Cache for the rtl
   useMemo(() => {
@@ -136,7 +156,7 @@ export default function App() {
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={themeRTL}>
         <CssBaseline />
-        {layout === "dashboard" && (
+        {template === "dashboard" && (
           <>
             <Sidenav
               color={sidenavColor}
@@ -150,22 +170,22 @@ export default function App() {
             {configsButton}
           </>
         )}
-        {layout === "vr" && <Configurator />}
+        {template === "vr" && <Configurator />}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </ThemeProvider>
     </CacheProvider>
   ) : (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {layout === "dashboard" && (
+      {template === "dashboard" && (
         <>
           <Sidenav
             color={sidenavColor}
             brand={brand}
-            brandName="Soft UI Dashboard"
+            brandName="Auto Parts"
             routes={routes}
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -174,7 +194,7 @@ export default function App() {
           {configsButton}
         </>
       )}
-      {layout === "vr" && <Configurator />}
+      {template === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
